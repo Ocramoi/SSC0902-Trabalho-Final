@@ -9,6 +9,7 @@ const botaoAdicao = document.getElementById('butAdd'),
       addImmediateSpan = document.getElementById('immSpan'),
       addImmediate = document.getElementById('imediato'),
       botRef = document.getElementById("pulaReferencias"),
+      botVolta = document.getElementById("voltaReferencias"),
       referencias = document.getElementById("referencia");
 
 // Implementação de delay assíncrono
@@ -91,12 +92,12 @@ class Instrucao {
     }
 
     toString() {
-        if (this.instrucao != "addi" && this.instrucao != "subi")
-            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} \$r${this.rSource2}`;
+        if (this.instrucao == "addi" || this.instrucao == "subi")
+            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
         else if (this.instrucao == 'nop')
             return `nop`;
         else
-            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
+            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} \$r${this.rSource2}`;
     }
 
     // Executa atualização de informações por etapa
@@ -203,27 +204,33 @@ botaoAdicao.addEventListener("click", (e) => {
 });
 
 // Confere se necessário exibir campo de imediato
-addInstrucao.addEventListener("change", (e) => {
+function exibeCampos() {
     if (addInstrucao.selectedIndex == 1 || addInstrucao.selectedIndex == 3) {
-        addTempSpan.setAttribute("style", "display: none");
-        addTemp.setAttribute("style", "display: none");
-
-        addImmediateSpan.setAttribute("style", "");
-        addImmediate.setAttribute("style", "");
+        document.getElementById('entradaTemp').setAttribute("style", "display: none");
+        document.getElementById('entradaImediato').setAttribute("style", "");
     } else {
-        addImmediateSpan.setAttribute("style", "display: none");
-        addImmediate.setAttribute("style", "display: none");
-
-        addTempSpan.setAttribute("style", "");
-        addTemp.setAttribute("style", "");
+        document.getElementById('entradaTemp').setAttribute("style", "");
+        document.getElementById('entradaImediato').setAttribute("style", "display: none");
     }
-});
+}
+
+addInstrucao.addEventListener("change", exibeCampos);
 
 // Pula para referências
 botRef.addEventListener("click", (e) => {
     window.scrollTo({
         left: 0,
         top: referencias.offsetTop,
+        behavior: "smooth"
+    });
+});
+
+// Volta de referências
+botVolta.addEventListener("click", (e) => {
+    console.log("aaa");
+    window.scrollTo({
+        left: 0,
+        top: 0,
         behavior: "smooth"
     });
 });

@@ -2,23 +2,58 @@ body {
     margin: 0;
     padding: 0;
     scroll-snap-type: y mandatory;
+    background-color: #b6f2ff;
 }
 
 #addInstrucao {
     scroll-snap-align: start;
     position: absolute;
-    top: 0;
-    left: 0;
-    margin: 10px;
+    top: 15px;
+    left: 15px;
     text-align: center;
+    width: 20%;
+    min-width: 300px;
+}
+
+#tituloAdd {
+    font-weight: bold;
+    font-size: 1.3rem;
+    font-style: italic;
 }
 
 #addInstrucao input {
     width: auto;
 }
 
+.entradaAdd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto;
+    grid-template-areas: 'label entrada';
+    margin: 5px;
+}
+
+.entradaAdd span {
+    width: 100%;
+    text-align: justify;
+}
+
+.entradaAdd input {
+    width: 100%;
+}
+
+#butAdd {
+    background-color: transparent;
+    font-size: 1.1rem;
+    border: 1px dashed black;
+    border-radius: 5px;
+    width: 100%;
+}
+
 #opInstrucao {
     margin: 2px;
+    text-align: center;
+    width: 100%;
 }
 
 #referencia {
@@ -35,18 +70,24 @@ body {
     min-height: 100vh;
 }
 
+#registradores {
+    margin: 15px;
+}
+
 #registradores, td {
+    column-width: auto;
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-#pulaReferencias {
+th {
+    text-align: center;
+}
+
+#pulaReferencias, #voltaReferencias {
     cursor: pointer;
     color: white;
     position: absolute;
-    top: calc(100vh - 5px);
-    left: 50%;
-    transform: translate(-50%, -100%);
     font-size: 2rem;
     line-height: 2rem;
     border-radius: 100%;
@@ -54,23 +95,90 @@ body {
     width: 2.5rem;
     border: 0;
     background-color: rgba(0, 25, 120, 100);
+    z-index: 10 !important;
+}
+#pulaReferencias {
+    top: calc(100vh - 5px);
+    left: 50%;
+    transform: translate(-50%, -100%);
+}
+
+#voltaReferencias {
+    top: calc(100vh + 5px);
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 #listaInstrucoes {
+    width: auto;
     position: absolute;
-    top: 100vh;
+    top: calc(100vh - 15px);
     transform: translate(0, -100%);
-    padding: 5px;
+    left: 15px;
     max-height: 50vh;
     overflow-y: auto;
 }
 
 #listaInstrucoes span {
-    width: 100%;
+    width: auto;
     text-align: center;
     font-family: 'monospace';
 }
 
 #opInstrucao {
     width: 100%;
+}
+
+#visualizacao {
+    position: absolute;
+    top: 50vh;
+    right: calc(35% + 15px);
+    width: 70%;
+    gap: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto auto auto auto auto;
+    grid-template-areas:
+        'tag0 img1 img2 img3 img4 img5'
+        'tag1 instr1_1 instr1_2 instr1_3 instr1_4 instr1_5'
+        'tag2 instr2_1 instr2_2 instr2_3 instr2_4 instr2_5'
+        'tag3 instr3_1 instr3_2 instr3_3 instr3_4 instr3_5'
+        'tag4 instr4_1 instr4_2 instr4_3 instr4_4 instr4_5'
+        'tag5 instr5_1 instr5_2 instr5_3 instr5_4 instr5_5'
+        'executa executa executa executa executa executa'
+    ;
+    transform: translate(50%, -50%) rotate(1deg);
+}
+
+#butExec {
+    width: 100%;
+    grid-area: executa;
+    cursor: pointer;
+    border: 1px dashed black;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    background-color: transparent;
+}
+
+.imgCard {
+    width: 8vw;
+    animation: animaCard 2s infinite linear;
+}
+
+@keyframes animaCard {
+    0% {
+        transform: rotate(0);
+    }
+    25% {
+        transform: rotate(4deg);
+    }
+    50% {
+        transform: rotate(0);
+    }
+    75% {
+        transform: rotate(-4deg);
+    }
+    100% {
+        transform: rotate(0);
+    }
 }

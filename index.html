@@ -20,65 +20,98 @@
         <![endif]-->
 
         <div id="addInstrucao">
-            <span>Nova instrução</span>
+            <span id="tituloAdd">Nova instrução</span>
             <br/>
-            <select id="opInstrucao" name="opInstrucao">
-                <option value="add">add</option>
-                <option value="addi">addi</option>
-                <option value="sub">sub</option>
-                <option value="subi">subi</option>
-                <option value="and">and</option>
-                <option value="or">or</option>
-                <option value="xor">xor</option>
-                <option value="nor">nor</option>
-                <option value="mult">mult</option>
-                <option value="div">div</option>
-                <option value="nop">nop</option>
-            </select>
-            <br/>
-            R<sub>dest</sub>
-            <input id="dest"
-                   name="dest"
-                   type="number"
-                   min="1"
-                   max="31"
-                   value="0"/>
-            <br/>
-            R<sub>source 1</sub>
-            <input id="source"
-                   name="source"
-                   type="number"
-                   min="0"
-                   max="31"
-                   value="0"/>
-            <br/>
-            <span id="tempSpan">R<sub>source 2</sub></span>
-            <input id="temp"
-                   name="temp"
-                   type="number"
-                   min="0"
-                   max="31"
-                   value="0"/>
-            <span id="immSpan"
-                  style="display: none">Valor</span>
-            <input
-                id="imediato"
-                style="display: none"
-                name="imediato"
-                type="number"
-                value=""/>
-            <br/>
+            <div class="entradaAdd">
+                <select id="opInstrucao" name="opInstrucao">
+                    <option value="add">add</option>
+                    <option value="addi">addi</option>
+                    <option value="sub">sub</option>
+                    <option value="subi">subi</option>
+                    <option value="and">and</option>
+                    <option value="or">or</option>
+                    <option value="xor">xor</option>
+                    <option value="nor">nor</option>
+                    <option value="mult">mult</option>
+                    <option value="div">div</option>
+                    <option value="nop">nop</option>
+                </select>
+            </div>
+            <div class="entradaAdd">
+                <span>R<sub>dest</sub></span>
+                <input id="dest"
+                       name="dest"
+                       type="number"
+                       min="1"
+                       max="31"
+                       value="1"/>
+            </div>
+            <div class="entradaAdd">
+                <span>R<sub>source 1</sub></span>
+                <input id="source"
+                       name="source"
+                       type="number"
+                       min="0"
+                       max="31"
+                       value="0"/>
+            </div>
+            <div class="entradaAdd"
+                 id="entradaTemp">
+                <span id="tempSpan">R<sub>source 2</sub></span>
+                <input id="temp"
+                       name="temp"
+                       type="number"
+                       min="0"
+                       max="31"
+                       value="0"/>
+            </div>
+            <div class="entradaAdd"
+                 style="display: none"
+                 id="entradaImediato">
+                <span id="immSpan">Valor</span>
+                <input id="imediato"
+                       name="imediato"
+                       type="number"
+                       value="0"/>
+
+            </div>
             <button id="butAdd">Adicionar</button>
         </div>
 
+        <div id="visualizacao">
+            <img class="imgCard"
+                 style="grid-area: img1; transform: rotate(2deg);"
+                 alt="Etapa 1"
+                 src="assets/ingredientes.jpeg"/>
+            <img class="imgCard"
+                 style="grid-area: img2; transform: rotate(0);"
+                 alt="Etapa 2"
+                 src="assets/tigela.jpeg"/>
+            <img class="imgCard"
+                 style="grid-area: img3; transform: rotate(-2deg);"
+                 alt="Etapa 3"
+                 src="assets/batedeira.jpeg"/>
+            <img class="imgCard"
+                 style="grid-area: img4; transform: rotate(0);"
+                 alt="Etapa 4"
+                 src="assets/forno.jpeg"/>
+            <img class="imgCard"
+                 style="grid-area: img5; transform: rotate(2deg);"
+                 alt="Etapa 5"
+                 src="assets/fatia.jpeg"/>
+            <!-- <span style="grid-area: tag0; align-self: center; width: 100%; text-align: center; font-size: 2rem; font-weight: lighter;">X</span> -->
+            <button id="butExec">Executar</button>
+        </div>
+
         <button id="pulaReferencias">↓</button>
+        <button id="voltaReferencias">↑</button>
 
         <div id="listaInstrucoes"></div>
 
         <div id="referencia">
             <table id="registradores">
                 <tr>
-                    <th>Registradores da arquitetura</th>
+                    <th colspan="3">Registradores da arquitetura</th>
                 </tr>
                 <tr>
                     <td>R00</td>
