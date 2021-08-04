@@ -1,0 +1,248 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Simulador Pipeline</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link href="./style.css" rel="stylesheet"/>
+        <!-- Place favicon.ico in tde root directory -->
+    </head>
+    <body>
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">
+            You are using an <strong>outdated</strong> browser. Please
+            <a href="http://browsehappy.com/">upgrade your browser</a> to improve
+            your experience.
+            </p>
+        <![endif]-->
+
+        <div id="addInstrucao">
+            <span>Nova instrução</span>
+            <br/>
+            <select id="opInstrucao" name="opInstrucao">
+                <option value="add">add</option>
+                <option value="addi">addi</option>
+                <option value="sub">sub</option>
+                <option value="subi">subi</option>
+                <option value="and">and</option>
+                <option value="or">or</option>
+                <option value="xor">xor</option>
+                <option value="nor">nor</option>
+                <option value="mult">mult</option>
+                <option value="div">div</option>
+                <option value="nop">nop</option>
+            </select>
+            <br/>
+            R<sub>dest</sub>
+            <input id="dest"
+                   name="dest"
+                   type="number"
+                   min="1"
+                   max="31"
+                   value="0"/>
+            <br/>
+            R<sub>source 1</sub>
+            <input id="source"
+                   name="source"
+                   type="number"
+                   min="0"
+                   max="31"
+                   value="0"/>
+            <br/>
+            <span id="tempSpan">R<sub>source 2</sub></span>
+            <input id="temp"
+                   name="temp"
+                   type="number"
+                   min="0"
+                   max="31"
+                   value="0"/>
+            <span id="immSpan"
+                  style="display: none">Valor</span>
+            <input
+                id="imediato"
+                style="display: none"
+                name="imediato"
+                type="number"
+                value=""/>
+            <br/>
+            <button id="butAdd">Adicionar</button>
+        </div>
+
+        <button id="pulaReferencias">↓</button>
+
+        <div id="listaInstrucoes"></div>
+
+        <div id="referencia">
+            <table id="registradores">
+                <tr>
+                    <th>Registradores da arquitetura</th>
+                </tr>
+                <tr>
+                    <td>R00</td>
+                    <td>$zero</td>
+                    <td>zero</td>
+                </tr>
+                <tr>
+                    <td>R01</td>
+                    <td>$at</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R02</td>
+                    <td>$v0</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R03</td>
+                    <td>$v1</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R04</td>
+                    <td>$a0</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R05</td>
+                    <td>$a1</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R06</td>
+                    <td>$a2</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R07</td>
+                    <td>$a3</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R08</td>
+                    <td>$t0</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R09</td>
+                    <td>$t1</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R10</td>
+                    <td>$t2</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R11</td>
+                    <td>$t3</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R12</td>
+                    <td>$t4</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R13</td>
+                    <td>$t5</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R14</td>
+                    <td>$t6</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R15</td>
+                    <td>$t7</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R16</td>
+                    <td>$s0</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R17</td>
+                    <td>$s1</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R18</td>
+                    <td>$s2</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R19</td>
+                    <td>$s3</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R20</td>
+                    <td>$s4</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R21</td>
+                    <td>$s5</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R22</td>
+                    <td>$s6</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R23</td>
+                    <td>$s7</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R24</td>
+                    <td>$t8</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R25</td>
+                    <td>$t9</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R26</td>
+                    <td>$k0</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R27</td>
+                    <td>$k1</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R28</td>
+                    <td>$gp</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R29</td>
+                    <td>$sp</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R30</td>
+                    <td>$fp</td>
+                    <td>0x0</td>
+                </tr>
+                <tr>
+                    <td>R31</td>
+                    <td>$ra</td>
+                    <td>0x0</td>
+                </tr>
+            </table>
+        </div>
+
+        <script src="./index.js"></script>
+    </body>
+</html>
