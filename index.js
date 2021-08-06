@@ -70,9 +70,10 @@ class Processador {
     }
     // Cria e adiciona nova intrução
     adicionaInstrucao() {
-        let i = new Instrucao();
-        this.instrucoes.push(i);
-        return i;
+        let instrucaoNome = addInstrucao.options[addInstrucao.selectedIndex].value;
+        let instrucao = new Instrucao(instrucaoNome);
+        this.instrucoes.push(instrucao);
+        return instrucao;
     }
 
     _atualizaInternos() {
@@ -100,6 +101,11 @@ class Processador {
 
     // Executa instruções salvas em sequência pelo número de etapas no pipeline
     async executar() {
+        for (let i = 0; i < 6; i++) {
+            let instrucaoNop = new Instrucao('nop');
+            this.instrucoes.push(instrucaoNop);
+        }
+
         this.pc = 0;
         for (let i = 0, k = 0;
              i < this.instrucoes.length;
@@ -110,8 +116,15 @@ class Processador {
                     continue;
                 this.instrucoes[instrNum].step();
             }
+            
             valsInstrs.pop();
-            valsInstrs.unshift(i);
+            console.log(this.instrucoes[i].instrucao)
+            if (this.instrucoes[i].instrucao == 'nop') {
+                valsInstrs.unshift('...');
+            } else {
+                valsInstrs.unshift(i);
+            }
+
             atualizaInstrs();
 
             this.pc += 4;
@@ -127,10 +140,10 @@ var processador = new Processador(32);
 
 // Classe de instrução com suas funções
 class Instrucao {
-    constructor() {
+    constructor(instrucaoNome) {
         // Inicializa valores
         this.etapa = 0;
-        this.instrucao = addInstrucao.options[addInstrucao.selectedIndex].value;
+        this.instrucao = instrucaoNome;
         if (this.instrucao == 'nop') {
             this.rDest = 0;
             this.rSource1 = 0;
@@ -294,6 +307,8 @@ function atualizaInstrs() {
     for (let i = 0; i < 5; ++i) {
         if (valsInstrs[i] != '...')
             instrs[i].innerText = `i${valsInstrs[i]}`;
+        else
+            instrs[i].innerText = `...`;
     }
 }
 
