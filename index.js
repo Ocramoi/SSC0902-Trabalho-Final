@@ -1,5 +1,6 @@
 // Elementos gráficos
 const botaoAdicao = document.getElementById('butAdd'),
+      botaoExec = document.getElementById("butExec"),
       lista = document.getElementById('listaInstrucoes'),
       addInstrucao = document.getElementById('opInstrucao'),
       addDest = document.getElementById('dest'),
@@ -10,7 +11,27 @@ const botaoAdicao = document.getElementById('butAdd'),
       addImmediate = document.getElementById('imediato'),
       botRef = document.getElementById("pulaReferencias"),
       botVolta = document.getElementById("voltaReferencias"),
-      referencias = document.getElementById("referencia");
+      referencias = document.getElementById("referencia"),
+
+      instrs = [
+          document.querySelectorAll('span[instr="1"]'),
+          document.querySelectorAll('span[instr="2"]'),
+          document.querySelectorAll('span[instr="3"]'),
+          document.querySelectorAll('span[instr="4"]'),
+          document.querySelectorAll('span[instr="5"]'),
+      ],
+
+      // Set com todas instruções que operam rx + immediate
+      instrucoesImediato = new Set(["addi","subi","multi","divi"]),
+      instrucoesImediatoIndices = new Set([1,3,9,11]);;
+
+let valsInstrs = [
+    ['...', '...', '...', '...', '...'],
+    ['...', '...', '...', '...', '...'],
+    ['...', '...', '...', '...', '...'],
+    ['...', '...', '...', '...', '...'],
+    ['...', '...', '...', '...', '...']
+];
 
 // Implementação de delay assíncrono
 async function delay(val) {
@@ -63,15 +84,26 @@ class Processador {
     // Executa instruções salvas em sequência pelo número de etapas no pipeline
     async executar() {
         let pc = 0;
-        for (let i = 0; i < this.instrucoes.length; ++i) {
-            for (let j = i - 4; j <= i; ++j) {
-                if (j < 0)
+        for (let i = 0, k = 0;
+             i < this.instrucoes.length;
+             ++i, ++k) {
+            for (let j = 0; j < 5; ++j) {
+                let instrNum = i - 4 + j;
+                if (instrNum < 0)
                     continue;
-                this.instrucoes[j].step();
+                this.instrucoes[instrNum].step();
             }
+            valsInstrs[0].pop();
+            valsInstrs[0].unshift(i);
+            for (let l = 1; l < 5; ++l) {
+                valsInstrs[l].pop();
+                valsInstrs[l].unshift(valsInstrs[l - 1][1]);
+            }
+            atualizaInstrs();
+
             this.pc += 4;
             atualizaTabela();
-            await delay(200);
+            await delay(500);
         }
     }
 }
@@ -92,7 +124,8 @@ class Instrucao {
     }
 
     toString() {
-        if (this.instrucao == "addi" || this.instrucao == "subi")
+        // if (this.instrucao == "addi" || this.instrucao == "subi")
+        if (instrucoesImediato.has(this.instrucao))
             return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
         else if (this.instrucao == 'nop')
             return `nop`;
@@ -120,13 +153,12 @@ class Instrucao {
             case 2:
                 if (this.rSource1 != null)
                     processador.a = processador.registradores[this.rSource1];
-                if (this.rSource2 != null &&
-                    (this.instrucao != 'addi' && this.instrucao != 'subi'))
+                if (this.rSource2 != null && !instrucoesImediato.has(this.instrucao))
                     processador.b = processador.registradores[this.rSource2];
                 processador.rd = this.rDest;
                 processador.rs = this.rSource1;
                 processador.rt = this.rSource2;
-                if (this.instrucao == 'addi' || this.instrucao == 'subi')
+                if (instrucoesImediato.has(this.instrucao))
                     processador.imm = this.immediate;
                 break;
 
@@ -162,8 +194,14 @@ class Instrucao {
                         case 'mult':
                             processador.aluOut = processador.a * processador.b;
                             break;
+                        case 'multi':
+                            processador.aluOut = processador.a * processador.imm;
+                            break;
                         case 'div':
                             processador.aluOut = processador.a / processador.b;
+                            break;
+                        case 'divi':
+                            processador.aluOut = processador.a / processador.imm;
                             break;
                     }
                 }
@@ -193,8 +231,9 @@ function atualizaTabela() {
 // Adiciona instrução escrita graficamente e internamente no processador
 botaoAdicao.addEventListener("click", (e) => {
     let curDiv = document.createElement("span"),
-        i = processador.adicionaInstrucao();
-    curDiv.innerHTML = i.toString();
+        i = processador.adicionaInstrucao(),
+        num = lista.children.length / 2;
+    curDiv.innerHTML = `i${num}: ${i.toString()}`;
     lista.appendChild(curDiv);
     lista.appendChild(document.createElement("br"))
     lista.scrollTo({
@@ -205,12 +244,21 @@ botaoAdicao.addEventListener("click", (e) => {
 
 // Confere se necessário exibir campo de imediato
 function exibeCampos() {
-    if (addInstrucao.selectedIndex == 1 || addInstrucao.selectedIndex == 3) {
+    if (instrucoesImediatoIndices.has(addInstrucao.selectedIndex)) {
         document.getElementById('entradaTemp').setAttribute("style", "display: none");
         document.getElementById('entradaImediato').setAttribute("style", "");
     } else {
         document.getElementById('entradaTemp').setAttribute("style", "");
         document.getElementById('entradaImediato').setAttribute("style", "display: none");
+    }
+}
+
+function atualizaInstrs() {
+    for (let i = 0; i < 5; ++i) {
+        for (let j = 0; j < 5; ++j) {
+            if (valsInstrs[i][j] != '...')
+                instrs[i][j].innerText = `i${valsInstrs[i][j]}`;
+        }
     }
 }
 
@@ -233,6 +281,10 @@ botVolta.addEventListener("click", (e) => {
         top: 0,
         behavior: "smooth"
     });
+});
+
+botaoExec.addEventListener('click', (e) => {
+    processador.executar();
 });
 
 // Atualiza tabela com valores zerados iniciais

@@ -43,6 +43,7 @@ body {
 }
 
 #butAdd {
+    cursor: pointer;
     background-color: transparent;
     font-size: 1.1rem;
     border: 1px dashed black;
@@ -110,7 +111,8 @@ th {
 }
 
 #listaInstrucoes {
-    width: auto;
+    width: 20%;
+    min-width: 300px;
     position: absolute;
     top: calc(100vh - 15px);
     transform: translate(0, -100%);
@@ -136,31 +138,56 @@ th {
     width: 70%;
     gap: 5px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
     grid-template-areas:
-        'tag0 img1 img2 img3 img4 img5'
-        'tag1 instr1_1 instr1_2 instr1_3 instr1_4 instr1_5'
-        'tag2 instr2_1 instr2_2 instr2_3 instr2_4 instr2_5'
-        'tag3 instr3_1 instr3_2 instr3_3 instr3_4 instr3_5'
-        'tag4 instr4_1 instr4_2 instr4_3 instr4_4 instr4_5'
-        'tag5 instr5_1 instr5_2 instr5_3 instr5_4 instr5_5'
-        'executa executa executa executa executa executa'
+        'img1 img2 img3 img4 img5'
+        'etapa1 etapa2 etapa3 etapa4 etapa5'
+        'hr1 hr1 hr1 hr1 hr1'
+        'instr1_1 instr1_2 instr1_3 instr1_4 instr1_5'
+        'hr2 hr2 hr2 hr2 hr2'
+        'instr2_1 instr2_2 instr2_3 instr2_4 instr2_5'
+        'hr3 hr3 hr3 hr3 hr3'
+        'instr3_1 instr3_2 instr3_3 instr3_4 instr3_5'
+        'hr4 hr4 hr4 hr4 hr4'
+        'instr4_1 instr4_2 instr4_3 instr4_4 instr4_5'
+        'hr5 hr5 hr5 hr5 hr5'
+        'instr5_1 instr5_2 instr5_3 instr5_4 instr5_5'
+        'executa executa executa executa executa'
     ;
-    transform: translate(50%, -50%) rotate(1deg);
+    transform: translate(50%, -50%) rotate(0.2deg);
+    align-content: center;
+}
+
+#visualizacao hr {
+    border: 1px dashed black;
+    width: 100%;
+}
+
+.nomeEtapa {
+    font-size: 1rem !important;
+}
+
+#visualizacao span {
+    text-align: center;
+    align-self: center;
+    width: 100%;
+    font-size: 1.5rem;
 }
 
 #butExec {
     width: 100%;
     grid-area: executa;
     cursor: pointer;
-    border: 1px dashed black;
+    border: 2px dashed black;
     border-radius: 5px;
     font-size: 1.3rem;
     background-color: transparent;
+    margin-top: 5px;
 }
 
 .imgCard {
+    margin: 0 auto;
     width: 8vw;
     animation: animaCard 2s infinite linear;
 }
