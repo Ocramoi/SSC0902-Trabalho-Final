@@ -17,6 +17,7 @@ input {
 }
 
 button {
+    font-weight: bold;
     font-family: 'Pixeled';
 }
 
@@ -107,12 +108,13 @@ main {
     grid-template-rows: auto;
     grid-template-columns: 1fr 2fr;
     grid-template-areas: 'registradores texto';
-    align-items: center;
-    min-height: 100vh;
+    /* align-items: center; */
+    /* min-height: 100vh; */
 }
 
 #registradores {
     margin: 15px;
+    grid-area: registradores;
 }
 
 #registradores, td {
@@ -153,13 +155,13 @@ th {
 #listaInstrucoes {
     width: 90%;
     margin: 0 auto;
+    overflow-y: auto;
     /* min-width: 300px; */
     /* position: absolute; */
     /* top: calc(100vh - 15px); */
     /* transform: translate(0, -100%); */
     /* left: 15px; */
     /* max-height: 50vh; */
-    overflow-y: auto;
 }
 
 #listaInstrucoes span {
@@ -220,9 +222,10 @@ th {
     width: 100%;
     /* grid-area: executa; */
     cursor: pointer;
-    border: 2px dashed black;
+    font-size: 1.1rem;
+    border: 1px dashed black;
     border-radius: 5px;
-    font-size: 1.3rem;
+    /* font-size: 1.3rem; */
     background-color: transparent;
     margin-top: 5px;
 }
@@ -264,4 +267,10 @@ th {
     left: 100%;
     top: 0;
     transform: translate(-50%, 0);
+}
+
+#textoRefs {
+    grid-area: texto;
+    width: calc(100% - 10px);
+    text-align: justify;
 }
