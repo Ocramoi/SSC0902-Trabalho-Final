@@ -12,26 +12,17 @@ const botaoAdicao = document.getElementById('butAdd'),
       botRef = document.getElementById("pulaReferencias"),
       botVolta = document.getElementById("voltaReferencias"),
       referencias = document.getElementById("referencia"),
+      regInt1 = document.getElementById('regs1'),
+      regInt2 = document.getElementById('regs2'),
+      regInt3 = document.getElementById('regs3'),
+      regInt4 = document.getElementById('regs4'),
 
-      instrs = [
-          document.querySelectorAll('span[instr="1"]'),
-          document.querySelectorAll('span[instr="2"]'),
-          document.querySelectorAll('span[instr="3"]'),
-          document.querySelectorAll('span[instr="4"]'),
-          document.querySelectorAll('span[instr="5"]'),
-      ],
-
+      instrs = document.querySelectorAll('span[instr="1"]'),
       // Set com todas instruções que operam rx + immediate
       instrucoesImediato = new Set(["addi","subi","multi","divi"]),
       instrucoesImediatoIndices = new Set([1,3,9,11]);;
 
-let valsInstrs = [
-    ['...', '...', '...', '...', '...'],
-    ['...', '...', '...', '...', '...'],
-    ['...', '...', '...', '...', '...'],
-    ['...', '...', '...', '...', '...'],
-    ['...', '...', '...', '...', '...']
-];
+let valsInstrs = ['...', '...', '...', '...', '...'];
 
 // Implementação de delay assíncrono
 async function delay(val) {
@@ -59,21 +50,24 @@ class Processador {
             this.registradores.push(0);
 
         // Inicializa registradores de pipeline internos
-        this.npc = null;
-        this.ir = null;
-        this.a = null;
-        this.b = null;
-        this.rt = null;
-        this.rd = null;
-        this.imm = null;
-        this.rs = null;
-        this.brTarget = null;
-        this.zero = null;
-        this.aluOut = null;
-        this.rd2 = null;
-        this.lmd = null;
+        this.npc = 0;
+        this.npc2 = 0;
+        this.ir = 0;
+        this.a = 0;
+        this.b = 0;
+        this.b2 = 0;
+        this.rt = 0;
+        this.rd = 0;
+        this.rd2 = 0;
+        this.rd3 = 0;
+        this.imm = 0;
+        this.rs = 0;
+        this.brTarget = 0;
+        this.zero = 0;
+        this.aluOut = 0;
+        this.aluOut2 = 0;
+        this.lmd = 0;
     }
-
     // Cria e adiciona nova intrução
     adicionaInstrucao() {
         let i = new Instrucao();
@@ -81,9 +75,32 @@ class Processador {
         return i;
     }
 
+    _atualizaInternos() {
+        regInt1.innerHTML = `<b>NPC:</b> ${this.npc.toString(2)}<br/>`;
+        regInt1.innerHTML += `<b>IR:</b> ${this.ir.toString(2)}<br/>`;
+
+        regInt2.innerHTML = `<b>NPC:</b> ${this.npc2.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>Val<sub>A</sub>:</b> ${this.a.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>Val<sub>B</sub>:</b> ${this.b.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>RT:</b> ${this.rt.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>RD:</b> ${this.rd.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>Imediato:</b> ${this.imm.toString(2)}<br/>`;
+        regInt2.innerHTML += `<b>RS:</b> ${this.rs.toString(2)}<br/>`;
+
+        regInt3.innerHTML = `<b>Branch Target:</b> ${this.brTarget.toString(2)}<br/>`;
+        regInt3.innerHTML += `<b>Zero:</b> ${this.zero.toString(2)}<br/>`;
+        regInt3.innerHTML += `<b>ALU Out:</b> ${this.aluOut.toString(2)}<br/>`;
+        regInt3.innerHTML += `<b>B:</b> ${this.b2.toString(2)}<br/>`;
+        regInt3.innerHTML += `<b>RD:</b> ${this.rd2.toString(2)}<br/>`;
+
+        regInt4.innerHTML = `<b>LMD:</b> ${this.lmd.toString(2)}<br/>`;
+        regInt4.innerHTML += `<b>ALU Out:</b> ${this.aluOut2.toString(2)}<br/>`;
+        regInt4.innerHTML += `<b>RD:</b> ${this.rd3.toString(2)}<br/>`;
+    }
+
     // Executa instruções salvas em sequência pelo número de etapas no pipeline
     async executar() {
-        let pc = 0;
+        this.pc = 0;
         for (let i = 0, k = 0;
              i < this.instrucoes.length;
              ++i, ++k) {
@@ -93,16 +110,13 @@ class Processador {
                     continue;
                 this.instrucoes[instrNum].step();
             }
-            valsInstrs[0].pop();
-            valsInstrs[0].unshift(i);
-            for (let l = 1; l < 5; ++l) {
-                valsInstrs[l].pop();
-                valsInstrs[l].unshift(valsInstrs[l - 1][1]);
-            }
+            valsInstrs.pop();
+            valsInstrs.unshift(i);
             atualizaInstrs();
 
             this.pc += 4;
             atualizaTabela();
+            this._atualizaInternos();
             await delay(500);
         }
     }
@@ -117,6 +131,13 @@ class Instrucao {
         // Inicializa valores
         this.etapa = 0;
         this.instrucao = addInstrucao.options[addInstrucao.selectedIndex].value;
+        if (this.instrucao == 'nop') {
+            this.rDest = 0;
+            this.rSource1 = 0;
+            this.rSource2 = 0;
+            this.immediate = 0;
+            return;
+        }
         this.rDest = parseInt(addDest.value);
         this.rSource1 = parseInt(addSrc.value);
         this.rSource2 = parseInt(addTemp.value);
@@ -126,17 +147,17 @@ class Instrucao {
     toString() {
         // if (this.instrucao == "addi" || this.instrucao == "subi")
         if (instrucoesImediato.has(this.instrucao))
-            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
+            return `${this.instrucao} \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
         else if (this.instrucao == 'nop')
             return `nop`;
         else
-            return `${this.instrucao } \$r${this.rDest} \$r${this.rSource1} \$r${this.rSource2}`;
+            return `${this.instrucao} \$r${this.rDest} \$r${this.rSource1} \$r${this.rSource2}`;
     }
 
     // Executa atualização de informações por etapa
     step() {
         // Confere execução de instrução
-        if (this.etapa > 5 || this.instrucao == 'nop')
+        if (this.etapa > 5)
             return;
 
         // Atualiza etapa
@@ -146,18 +167,22 @@ class Instrucao {
             // Atualiza informações de processo
             case 1:
                 processador.npc = processador.pc + 4;
-                processador.ir = `(${this.instrucao})|${this.rSource1.toString(16)}|${this.rSource2.toString(16)}|${this.rDest.toString(16)}`;
+                if (this.instrucao == 'nop')
+                    processador.ir = `(nop)`;
+                else
+                    processador.ir = `(${this.instrucao})|${this.rSource1.toString(2)}|${this.rSource2.toString(2)}|${this.rDest.toString(2)}`;
                 break;
 
             // Carrega informações de registro
             case 2:
-                if (this.rSource1 != null)
-                    processador.a = processador.registradores[this.rSource1];
-                if (this.rSource2 != null && !instrucoesImediato.has(this.instrucao))
-                    processador.b = processador.registradores[this.rSource2];
+                // if (this.rSource1 != 0)
+                processador.a = processador.registradores[this.rSource1];
+                // if (this.rSource2 != 0 && !instrucoesImediato.has(this.instrucao))
+                processador.b = processador.registradores[this.rSource2];
                 processador.rd = this.rDest;
                 processador.rs = this.rSource1;
                 processador.rt = this.rSource2;
+                processador.npc2 = processador.npc;
                 if (instrucoesImediato.has(this.instrucao))
                     processador.imm = this.immediate;
                 break;
@@ -165,6 +190,7 @@ class Instrucao {
             // Realiza aritmética e cálculo de branching
             case 3:
                 processador.brTarget = processador.npc + processador.imm;
+                processador.zero = 0;
                 if (this.instrucao != 'nop') {
                     switch (this.instrucao) {
                         case 'add':
@@ -205,17 +231,22 @@ class Instrucao {
                             break;
                     }
                 }
+                processador.aluOut = parseInt(processador.aluOut);
                 processador.rd2 = processador.rd; // ??????? MULT
+                processador.b2 = processador.b;
                 break;
             case 4:
+                processador.rd3 = processador.rd2;
+                processador.aluOut2 = processador.aluOut;
                 // Como não tem instrução de acesso à memória, ignora
+                this.lmd = 0;
                 break;
             // Write-back
             case 5:
                 if (this.instrucao == 'lw')
-                    processador.registradores[processador.rd2] = processador.lmd;
-                else
-                    processador.registradores[processador.rd2] = processador.aluOut;
+                    processador.registradores[processador.rd3] = processador.lmd;
+                else if (this.instrucao != 'nop')
+                    processador.registradores[processador.rd3] = processador.aluOut2;
                 break;
         }
     }
@@ -225,17 +256,16 @@ class Instrucao {
 function atualizaTabela() {
     let cells = document.getElementsByTagName("td");
     for (let i = 2, j = 0; i < cells.length; i += 3, ++j)
-        cells[i].innerText = processador.registradores[j].toString(16);
+        cells[i].innerText = processador.registradores[j].toString(2);
 }
 
 // Adiciona instrução escrita graficamente e internamente no processador
 botaoAdicao.addEventListener("click", (e) => {
     let curDiv = document.createElement("span"),
         i = processador.adicionaInstrucao(),
-        num = lista.children.length / 2;
+        num = lista.children.length;
     curDiv.innerHTML = `i${num}: ${i.toString()}`;
     lista.appendChild(curDiv);
-    lista.appendChild(document.createElement("br"))
     lista.scrollTo({
         top: lista.scrollHeight,
         left: 0
@@ -255,10 +285,8 @@ function exibeCampos() {
 
 function atualizaInstrs() {
     for (let i = 0; i < 5; ++i) {
-        for (let j = 0; j < 5; ++j) {
-            if (valsInstrs[i][j] != '...')
-                instrs[i][j].innerText = `i${valsInstrs[i][j]}`;
-        }
+        if (valsInstrs[i] != '...')
+            instrs[i].innerText = `i${valsInstrs[i]}`;
     }
 }
 
@@ -275,7 +303,6 @@ botRef.addEventListener("click", (e) => {
 
 // Volta de referências
 botVolta.addEventListener("click", (e) => {
-    console.log("aaa");
     window.scrollTo({
         left: 0,
         top: 0,

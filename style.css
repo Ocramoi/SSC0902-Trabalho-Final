@@ -1,18 +1,57 @@
+@font-face {
+    font-family: 'Pixeled';
+    /* src: url('./Pixeled.ttf') */
+    src: url('./vcr.ttf')
+}
+
 body {
     margin: 0;
     padding: 0;
     scroll-snap-type: y mandatory;
     background-color: #b6f2ff;
+    font-family: 'Pixeled';
+}
+
+input {
+    font-family: 'Pixeled';
+}
+
+button {
+    font-family: 'Pixeled';
+}
+
+select {
+    font-family: 'Pixeled';
+}
+
+main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 'add add'
+                         'lista visu';
 }
 
 #addInstrucao {
     scroll-snap-align: start;
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    /* position: absolute; */
+    /* top: 15px; */
+    /* left: 15px; */
     text-align: center;
-    width: 20%;
-    min-width: 300px;
+    width: 100%;
+    /* min-width: 300px; */
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: 'combo dest r1 r2 bAdd bExec';
+    /* gap: 5px; */
 }
 
 #tituloAdd {
@@ -35,7 +74,7 @@ body {
 
 .entradaAdd span {
     width: 100%;
-    text-align: justify;
+    text-align: center;
 }
 
 .entradaAdd input {
@@ -48,7 +87,8 @@ body {
     font-size: 1.1rem;
     border: 1px dashed black;
     border-radius: 5px;
-    width: 100%;
+    width: calc(100% - 5px);
+    margin-top: 5px;
 }
 
 #opInstrucao {
@@ -111,20 +151,23 @@ th {
 }
 
 #listaInstrucoes {
-    width: 20%;
-    min-width: 300px;
-    position: absolute;
-    top: calc(100vh - 15px);
-    transform: translate(0, -100%);
-    left: 15px;
-    max-height: 50vh;
+    width: 90%;
+    margin: 0 auto;
+    /* min-width: 300px; */
+    /* position: absolute; */
+    /* top: calc(100vh - 15px); */
+    /* transform: translate(0, -100%); */
+    /* left: 15px; */
+    /* max-height: 50vh; */
     overflow-y: auto;
 }
 
 #listaInstrucoes span {
-    width: auto;
+    width: 100%;
     text-align: center;
-    font-family: 'monospace';
+    display: block;
+    /* font-size: 0.8rem; */
+    /* font-family: 'monospace'; */
 }
 
 #opInstrucao {
@@ -132,10 +175,13 @@ th {
 }
 
 #visualizacao {
-    position: absolute;
-    top: 50vh;
-    right: calc(35% + 15px);
-    width: 70%;
+    /* position: absolute; */
+    /* top: 50vh; */
+    /* right: calc(35% + 15px); */
+    width: 90%;
+    /* padding: 5px; */
+    /* align-self: center; */
+    /* margin: 0 auto */
     gap: 5px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -146,16 +192,10 @@ th {
         'hr1 hr1 hr1 hr1 hr1'
         'instr1_1 instr1_2 instr1_3 instr1_4 instr1_5'
         'hr2 hr2 hr2 hr2 hr2'
-        'instr2_1 instr2_2 instr2_3 instr2_4 instr2_5'
-        'hr3 hr3 hr3 hr3 hr3'
-        'instr3_1 instr3_2 instr3_3 instr3_4 instr3_5'
-        'hr4 hr4 hr4 hr4 hr4'
-        'instr4_1 instr4_2 instr4_3 instr4_4 instr4_5'
-        'hr5 hr5 hr5 hr5 hr5'
-        'instr5_1 instr5_2 instr5_3 instr5_4 instr5_5'
-        'executa executa executa executa executa'
+        'regs1 regs2 regs3 regs4 regs5'
     ;
-    transform: translate(50%, -50%) rotate(0.2deg);
+    /* transform: translate(50%, -50%) rotate(0.2deg); */
+    /* transform: translate(50%, -50%); */
     align-content: center;
 }
 
@@ -176,8 +216,9 @@ th {
 }
 
 #butExec {
+    font-weight: bold;
     width: 100%;
-    grid-area: executa;
+    /* grid-area: executa; */
     cursor: pointer;
     border: 2px dashed black;
     border-radius: 5px;
@@ -208,4 +249,19 @@ th {
     100% {
         transform: rotate(0);
     }
+}
+
+.regs {
+    overflow: hidden;
+    position: relative;
+    width: 200%;
+    text-align: center;
+}
+
+.regs span {
+    z-index: 10;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    transform: translate(-50%, 0);
 }

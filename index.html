@@ -19,192 +19,156 @@
             </p>
         <![endif]-->
 
-        <div id="addInstrucao">
-            <span id="tituloAdd">Nova instrução</span>
-            <br/>
-            <div class="entradaAdd">
-                <select id="opInstrucao" name="opInstrucao">
-                    <option value="add">add</option>
-                    <option value="addi">addi</option>
-                    <option value="sub">sub</option>
-                    <option value="subi">subi</option>
-                    <option value="and">and</option>
-                    <option value="or">or</option>
-                    <option value="xor">xor</option>
-                    <option value="nor">nor</option>
-                    <option value="mult">mult</option>
-                    <option value="multi">multi</option>
-                    <option value="div">div</option>
-                    <option value="divi">divi</option>
-                    <option value="nop">nop</option>
-                </select>
+        <main>
+            <div id="addInstrucao"
+                 style="grid-area: add;">
+                <!-- <span id="tituloAdd">Nova instrução</span>
+                     <br/> -->
+                <div class="entradaAdd" style="grid-area: combo">
+                    <select id="opInstrucao" name="opInstrucao">
+                        <option value="add">add</option>
+                        <option value="addi">addi</option>
+                        <option value="sub">sub</option>
+                        <option value="subi">subi</option>
+                        <option value="and">and</option>
+                        <option value="or">or</option>
+                        <option value="xor">xor</option>
+                        <option value="nor">nor</option>
+                        <option value="mult">mult</option>
+                        <option value="multi">multi</option>
+                        <option value="div">div</option>
+                        <option value="divi">divi</option>
+                        <option value="nop">nop</option>
+                    </select>
+                </div>
+                <div class="entradaAdd" style="grid-area: dest">
+                    <span>R<sub>dest</sub></span><br/>
+                    <input id="dest"
+                           name="dest"
+                           type="number"
+                           step="1"
+                           min="1"
+                           max="31"
+                           value="1"/>
+                </div>
+                <div class="entradaAdd" style="grid-area: r1">
+                    <span>R<sub>source 1</sub></span><br/>
+                    <input id="source"
+                           name="source"
+                           type="number"
+                           step="1"
+                           min="0"
+                           max="31"
+                           value="0"/>
+                </div>
+                <div class="entradaAdd"
+                    id="entradaTemp" style="grid-area: r2">
+                    <span id="tempSpan">R<sub>source 2</sub></span><br/>
+                    <input id="temp"
+                           name="temp"
+                           type="number"
+                           step="1"
+                           min="0"
+                           max="31"
+                           value="0"/>
+                </div>
+                <div class="entradaAdd"
+                    style="display: none; grid-area: r2"
+                    id="entradaImediato">
+                    <span id="immSpan">Valor</span><br/>
+                    <input id="imediato"
+                        name="imediato"
+                        type="number"
+                        value="0"/>
+
+                </div>
+                <button id="butAdd" style="grid-area: bAdd">Adicionar</button>
+                <button id="butExec" style="grid-area: bExec">Executar</button>
             </div>
-            <div class="entradaAdd">
-                <span>R<sub>dest</sub></span>
-                <input id="dest"
-                       name="dest"
-                       type="number"
-                       min="1"
-                       max="31"
-                       value="1"/>
+
+            <div id="visualizacao"
+                 style="grid-area: visu">
+                <img class="imgCard"
+                    style="grid-area: img1; transform: rotate(2deg);"
+                    alt="Etapa 1"
+                    src="assets/ingredientes.jpeg"/>
+                <img class="imgCard"
+                    style="grid-area: img2; transform: rotate(0);"
+                    alt="Etapa 2"
+                    src="assets/tigela.jpeg"/>
+                <img class="imgCard"
+                    style="grid-area: img3; transform: rotate(-2deg);"
+                    alt="Etapa 3"
+                    src="assets/batedeira.jpeg"/>
+                <img class="imgCard"
+                    style="grid-area: img4; transform: rotate(0);"
+                    alt="Etapa 4"
+                    src="assets/forno.jpeg"/>
+                <img class="imgCard"
+                    style="grid-area: img5; transform: rotate(2deg);"
+                    alt="Etapa 5"
+                    src="assets/fatia.jpeg"/>
+
+                <span class="nomeEtapa"
+                    style="grid-area: etapa1">Fetch</span>
+                <span class="nomeEtapa"
+                    style="grid-area: etapa2">Decode</span>
+                <span class="nomeEtapa"
+                    style="grid-area: etapa3">Execute</span>
+                <span class="nomeEtapa"
+                    style="grid-area: etapa4">Memory Access</span>
+                <span class="nomeEtapa"
+                    style="grid-area: etapa5">Write Back</span>
+                <hr style="grid-area: hr1" />
+                <hr style="grid-area: hr2" />
+
+                <span style="grid-area: instr1_1"
+                    id="instr1_1"
+                    instr="1">...</span>
+                <span style="grid-area: instr1_2"
+                    id="instr1_2"
+                    instr="1">...</span>
+                <span style="grid-area: instr1_3"
+                    id="instr1_3"
+                    instr="1">...</span>
+                <span style="grid-area: instr1_4"
+                    id="instr1_4"
+                    instr="1">...</span>
+                <span style="grid-area: instr1_5"
+                    id="instr1_5"
+                    instr="1">...</span>
+
+                <div id="regs1"
+                    class="regs"
+                    style="grid-area: regs1">
+                    ...
+                </div>
+                <div id="regs2"
+                    class="regs"
+                    style="grid-area: regs2">
+                    ...
+                </div>
+                <div id="regs3"
+                    class="regs"
+                    style="grid-area: regs3">
+                    ...
+                </div>
+                <div id="regs4"
+                    class="regs"
+                    style="grid-area: regs4">
+                    ...
+                </div>
+                <div id="regs5"
+                    style="grid-area: regs5">
+                </div>
             </div>
-            <div class="entradaAdd">
-                <span>R<sub>source 1</sub></span>
-                <input id="source"
-                       name="source"
-                       type="number"
-                       min="0"
-                       max="31"
-                       value="0"/>
-            </div>
-            <div class="entradaAdd"
-                 id="entradaTemp">
-                <span id="tempSpan">R<sub>source 2</sub></span>
-                <input id="temp"
-                       name="temp"
-                       type="number"
-                       min="0"
-                       max="31"
-                       value="0"/>
-            </div>
-            <div class="entradaAdd"
-                 style="display: none"
-                 id="entradaImediato">
-                <span id="immSpan">Valor</span>
-                <input id="imediato"
-                       name="imediato"
-                       type="number"
-                       value="0"/>
 
-            </div>
-            <button id="butAdd">Adicionar</button>
-        </div>
-
-        <div id="visualizacao">
-            <img class="imgCard"
-                 style="grid-area: img1; transform: rotate(2deg);"
-                 alt="Etapa 1"
-                 src="assets/ingredientes.jpeg"/>
-            <img class="imgCard"
-                 style="grid-area: img2; transform: rotate(0);"
-                 alt="Etapa 2"
-                 src="assets/tigela.jpeg"/>
-            <img class="imgCard"
-                 style="grid-area: img3; transform: rotate(-2deg);"
-                 alt="Etapa 3"
-                 src="assets/batedeira.jpeg"/>
-            <img class="imgCard"
-                 style="grid-area: img4; transform: rotate(0);"
-                 alt="Etapa 4"
-                 src="assets/forno.jpeg"/>
-            <img class="imgCard"
-                 style="grid-area: img5; transform: rotate(2deg);"
-                 alt="Etapa 5"
-                 src="assets/fatia.jpeg"/>
-
-            <span class="nomeEtapa"
-                  style="grid-area: etapa1">Fetch</span>
-            <span class="nomeEtapa"
-                  style="grid-area: etapa2">Decode</span>
-            <span class="nomeEtapa"
-                  style="grid-area: etapa3">Execute</span>
-            <span class="nomeEtapa"
-                  style="grid-area: etapa4">Memory Access</span>
-            <span class="nomeEtapa"
-                  style="grid-area: etapa5">Write Back</span>
-            <hr style="grid-area: hr1" />
-            <hr style="grid-area: hr2" />
-            <hr style="grid-area: hr3" />
-            <hr style="grid-area: hr4" />
-            <hr style="grid-area: hr5" />
-
-            <span style="grid-area: instr1_1"
-                  id="instr1_1"
-                  instr="1">...</span>
-            <span style="grid-area: instr1_2"
-                  id="instr1_2"
-                  instr="1">...</span>
-            <span style="grid-area: instr1_3"
-                  id="instr1_3"
-                  instr="1">...</span>
-            <span style="grid-area: instr1_4"
-                  id="instr1_4"
-                  instr="1">...</span>
-            <span style="grid-area: instr1_5"
-                  id="instr1_5"
-                  instr="1">...</span>
-
-            <span style="grid-area: instr2_1"
-                  id="instr2_1"
-                  instr="2">...</span>
-            <span style="grid-area: instr2_2"
-                  id="instr2_2"
-                  instr="2">...</span>
-            <span style="grid-area: instr2_3"
-                  id="instr2_3"
-                  instr="2">...</span>
-            <span style="grid-area: instr2_4"
-                  id="instr2_4"
-                  instr="2">...</span>
-            <span style="grid-area: instr2_5"
-                  id="instr2_5"
-                  instr="2">...</span>
-
-            <span style="grid-area: instr3_1"
-                  id="instr3_1"
-                  instr="3">...</span>
-            <span style="grid-area: instr3_2"
-                  id="instr3_2"
-                  instr="3">...</span>
-            <span style="grid-area: instr3_3"
-                  id="instr3_3"
-                  instr="3">...</span>
-            <span style="grid-area: instr3_4"
-                  id="instr3_4"
-                  instr="3">...</span>
-            <span style="grid-area: instr3_5"
-                  id="instr3_5"
-                  instr="3">...</span>
-
-            <span style="grid-area: instr4_1"
-                  id="instr4_1"
-                  instr="4">...</span>
-            <span style="grid-area: instr4_2"
-                  id="instr4_2"
-                  instr="4">...</span>
-            <span style="grid-area: instr4_3"
-                  id="instr4_3"
-                  instr="4">...</span>
-            <span style="grid-area: instr4_4"
-                  id="instr4_4"
-                  instr="4">...</span>
-            <span style="grid-area: instr4_5"
-                  id="instr4_5"
-                  instr="4">...</span>
-
-            <span style="grid-area: instr5_1"
-                  id="instr5_1"
-                  instr="5">...</span>
-            <span style="grid-area: instr5_2"
-                  id="instr5_2"
-                  instr="5">...</span>
-            <span style="grid-area: instr5_3"
-                  id="instr5_3"
-                  instr="5">...</span>
-            <span style="grid-area: instr5_4"
-                  id="instr5_4"
-                  instr="5">...</span>
-            <span style="grid-area: instr5_5"
-                  id="instr5_5"
-                  instr="5">...</span>
-
-            <button id="butExec">Executar</button>
-        </div>
+            <div id="listaInstrucoes"
+                 style="grid-area: lista"></div>
+        </main>
 
         <button id="pulaReferencias">↓</button>
         <button id="voltaReferencias">↑</button>
-
-        <div id="listaInstrucoes"></div>
 
         <div id="referencia">
             <table id="registradores">
