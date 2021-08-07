@@ -168,7 +168,6 @@ class Instrucao {
     }
 
     toString() {
-        // if (this.instrucao == "addi" || this.instrucao == "subi")
         if (instrucoesImediato.has(this.instrucao))
             return `${this.instrucao} \$r${this.rDest} \$r${this.rSource1} #${this.immediate}`;
         else if (this.instrucao == 'nop')
@@ -198,9 +197,7 @@ class Instrucao {
 
             // Carrega informações de registro
             case 2:
-                // if (this.rSource1 != 0)
                 processador.a = processador.registradores[this.rSource1];
-                // if (this.rSource2 != 0 && !instrucoesImediato.has(this.instrucao))
                 processador.b = processador.registradores[this.rSource2];
                 processador.rd = this.rDest;
                 processador.rs = this.rSource1;
@@ -371,11 +368,6 @@ function atualizaPergunta() {
     if (counterPergunta >= textos.length)
         return;
 
-    // window.scrollTo({
-    //     left: 0,
-    //     top: document.body.scrollHeight,
-    //     behavior: "smooth"
-    // });
     let textoCur = textos[counterPergunta];
     duckyPergunta.innerHTML = `<b>Q:</b> ${textoCur[0]}`;
     duckyResposta.innerHTML = `<b>A:</b> ${textoCur[1]}`;
