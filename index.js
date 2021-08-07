@@ -204,7 +204,9 @@ class Instrucao {
             case 3:
                 processador.brTarget = processador.npc + processador.imm;
                 processador.zero = 0;
-                if (this.instrucao != 'nop') {
+                if (this.instrucao == 'nop') {
+                    processador.aluOut = 0
+                } else  {
                     // Adiantamento (forwarding) no resultado da operação anterior (rd = registrador destino da EX/MEM)
                     if (processador.rd2 == processador.rs) { // rd da EX/MEM é o ra
                         processador.a = processador.aluOut;
