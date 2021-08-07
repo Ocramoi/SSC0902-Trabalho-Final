@@ -9,6 +9,7 @@
 
         <link href="./style.css" rel="stylesheet"/>
         <!-- Place favicon.ico in tde root directory -->
+        <link href="./assets/ducky.png" rel="icon"/>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -18,7 +19,6 @@
             your experience.
             </p>
         <![endif]-->
-
         <main>
             <div id="addInstrucao"
                  style="grid-area: add;">
@@ -88,26 +88,26 @@
 
             <div id="visualizacao"
                  style="grid-area: visu">
-                <img class="imgCard"
-                    style="grid-area: img1; transform: rotate(2deg);"
-                    alt="Etapa 1"
-                    src="assets/ingredientes.jpeg"/>
-                <img class="imgCard"
-                    style="grid-area: img2; transform: rotate(0);"
-                    alt="Etapa 2"
-                    src="assets/tigela.jpeg"/>
-                <img class="imgCard"
-                    style="grid-area: img3; transform: rotate(-2deg);"
-                    alt="Etapa 3"
-                    src="assets/batedeira.jpeg"/>
-                <img class="imgCard"
-                    style="grid-area: img4; transform: rotate(0);"
-                    alt="Etapa 4"
-                    src="assets/forno.jpeg"/>
-                <img class="imgCard"
-                    style="grid-area: img5; transform: rotate(2deg);"
-                    alt="Etapa 5"
-                    src="assets/fatia.jpeg"/>
+                <img class="imgCard gira"
+                     style="grid-area: img1"
+                     alt="Etapa 1"
+                     src="assets/ingredients.png"/>
+                <img class="imgCard gira"
+                     style="grid-area: img2"
+                     alt="Etapa 2"
+                    src="assets/bowl.png"/>
+                <img class="imgCard gira"
+                     style="grid-area: img3"
+                     alt="Etapa 3"
+                     src="assets/mixing.png"/>
+                <img class="imgCard gira"
+                     style="grid-area: img4"
+                     alt="Etapa 4"
+                     src="assets/oven.png"/>
+                <img class="imgCard gira"
+                     style="grid-area: img5"
+                     alt="Etapa 5"
+                     src="assets/cake.png"/>
 
                 <span class="nomeEtapa"
                     style="grid-area: etapa1">Fetch</span>
@@ -119,8 +119,6 @@
                     style="grid-area: etapa4">Memory Access</span>
                 <span class="nomeEtapa"
                     style="grid-area: etapa5">Write Back</span>
-                <hr style="grid-area: hr1" />
-                <hr style="grid-area: hr2" />
 
                 <span style="grid-area: instr1_1"
                     id="instr1_1"
@@ -358,6 +356,12 @@
                 <p>
                     Para a arquitetura, isso significa que vamos quebrar uma única instrução, a unidade de operação de um processador, em diversos passos. Isso nos permite utilizar ao máximo todos os componentes do processador - eles sempre vão estar operando e passando adiante o seu resultado.
                 </p>
+
+                <div id="ducky">
+                    <div id="textoDucky">Teste do texto</div>
+                    <br/>
+                    <img alt="Ducky" src="./assets/ducky.png"/>
+                </div>
             </div>
         </div>
 

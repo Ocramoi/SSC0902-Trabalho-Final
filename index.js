@@ -22,7 +22,8 @@ const botaoAdicao = document.getElementById('butAdd'),
       instrucoesImediato = new Set(["addi","subi","multi","divi"]),
       instrucoesImediatoIndices = new Set([1,3,9,11]);;
 
-let valsInstrs = ['...', '...', '...', '...', '...'];
+let valsInstrs = ['...', '...', '...', '...', '...'],
+    imgCards = document.querySelectorAll('.imgCard');
 
 // Implementação de delay assíncrono
 async function delay(val) {
@@ -118,7 +119,6 @@ class Processador {
             }
             
             valsInstrs.pop();
-            console.log(this.instrucoes[i].instrucao)
             if (this.instrucoes[i].instrucao == 'nop') {
                 valsInstrs.unshift('...');
             } else {
@@ -205,8 +205,8 @@ class Instrucao {
                 processador.brTarget = processador.npc + processador.imm;
                 processador.zero = 0;
                 if (this.instrucao == 'nop') {
-                    processador.aluOut = 0
-                } else  {
+                    processador.aluOut = 0;
+                } else {
                     // Adiantamento (forwarding) no resultado da operação anterior (rd = registrador destino da EX/MEM)
                     if (processador.rd2 == processador.rs) { // rd da EX/MEM é o ra
                         processador.a = processador.aluOut;
@@ -334,8 +334,27 @@ botVolta.addEventListener("click", (e) => {
     });
 });
 
-botaoExec.addEventListener('click', (e) => {
-    processador.executar();
+function toggleAnimacoes() {
+    imgCards.forEach((obj, idx) => {
+        let classes = obj.getAttribute('class'),
+            imgSrc = obj.getAttribute('src');
+
+        if (classes.includes("gira")) {
+            console.log(obj, "para");
+
+            obj.setAttribute('class', "imgCard");
+            obj.setAttribute('src', imgSrc.replace('png', 'gif'));
+        } else {
+            obj.setAttribute('class', 'imgCard gira')
+            obj.setAttribute('src', imgSrc.replace('gif', 'png'));
+        }
+    });
+}
+
+botaoExec.addEventListener('click', async (e) => {
+    toggleAnimacoes();
+    await processador.executar();
+    toggleAnimacoes();
 });
 
 // Atualiza tabela com valores zerados iniciais

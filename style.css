@@ -8,7 +8,8 @@ body {
     margin: 0;
     padding: 0;
     scroll-snap-type: y mandatory;
-    background-color: #b6f2ff;
+    /* background-color: #b6f2ff; */
+    background-color: whitesmoke;
     font-family: 'Pixeled';
 }
 
@@ -86,7 +87,7 @@ main {
     cursor: pointer;
     background-color: transparent;
     font-size: 1.1rem;
-    border: 1px dashed black;
+    border: 1px solid black;
     border-radius: 5px;
     width: calc(100% - 5px);
     margin-top: 5px;
@@ -137,7 +138,7 @@ th {
     height: 2.5rem;
     width: 2.5rem;
     border: 0;
-    background-color: rgba(0, 25, 120, 100);
+    background-color: #e89e92;
     z-index: 10 !important;
 }
 #pulaReferencias {
@@ -191,9 +192,7 @@ th {
     grid-template-areas:
         'img1 img2 img3 img4 img5'
         'etapa1 etapa2 etapa3 etapa4 etapa5'
-        'hr1 hr1 hr1 hr1 hr1'
         'instr1_1 instr1_2 instr1_3 instr1_4 instr1_5'
-        'hr2 hr2 hr2 hr2 hr2'
         'regs1 regs2 regs3 regs4 regs5'
     ;
     /* transform: translate(50%, -50%) rotate(0.2deg); */
@@ -220,19 +219,25 @@ th {
 #butExec {
     font-weight: bold;
     width: 100%;
-    /* grid-area: executa; */
     cursor: pointer;
     font-size: 1.1rem;
-    border: 1px dashed black;
+    border: 1px solid black;
     border-radius: 5px;
-    /* font-size: 1.3rem; */
     background-color: transparent;
     margin-top: 5px;
 }
 
 .imgCard {
     margin: 0 auto;
-    width: 8vw;
+    width: 75%;
+    box-shadow: 8px 8px 4px grey;
+    margin-bottom: 5px;
+    border: 2px solid #352b23;
+    border-radius: 10px;
+    background-color: #e89e92;
+}
+
+.gira {
     animation: animaCard 2s infinite linear;
 }
 
@@ -273,4 +278,18 @@ th {
     grid-area: texto;
     width: calc(100% - 10px);
     text-align: justify;
+}
+
+#ducky {
+    width: 100%;
+    text-align: right;
+}
+
+#textoDucky {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 1rem;
 }
