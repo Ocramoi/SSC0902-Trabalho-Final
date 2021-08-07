@@ -235,6 +235,7 @@ th {
     border: 2px solid #352b23;
     border-radius: 10px;
     background-color: #e89e92;
+    filter: sepia(30%);
 }
 
 .gira {
@@ -278,6 +279,7 @@ th {
     grid-area: texto;
     width: calc(100% - 10px);
     text-align: justify;
+    position: relative;
 }
 
 #ducky {
@@ -307,4 +309,30 @@ th {
     cursor: pointer;
     width: 30%;
     max-width: 256px;
+}
+
+#cursor {
+    position: absolute;
+    bottom: 20px;
+    right: 0;
+    width: 50px;
+    animation: animaCursor 2s infinite linear;
+}
+
+@keyframes animaCursor {
+    0% {
+        transform: translate(-50%, 0) rotate(-40deg);
+    }
+    /* 25% { */
+    /*     transform: rotate(4deg); */
+    /* } */
+    50% {
+        transform: translate(-60%, -10px) rotate(-70deg);
+    }
+    /* 75% { */
+    /*     transform: rotate(-4deg); */
+    /* } */
+    100% {
+        transform: translate(-50%, 0) rotate(-40deg);
+    }
 }
