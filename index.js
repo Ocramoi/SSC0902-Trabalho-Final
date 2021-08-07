@@ -16,14 +16,24 @@ const botaoAdicao = document.getElementById('butAdd'),
       regInt2 = document.getElementById('regs2'),
       regInt3 = document.getElementById('regs3'),
       regInt4 = document.getElementById('regs4'),
+      ducky = document.getElementById('avatarDucky'),
+      duckyPergunta = document.getElementById('textoPergunta'),
+      duckyResposta = document.getElementById('textoDucky'),
 
       instrs = document.querySelectorAll('span[instr="1"]'),
       // Set com todas instruções que operam rx + immediate
       instrucoesImediato = new Set(["addi","subi","multi","divi"]),
-      instrucoesImediatoIndices = new Set([1,3,9,11]);;
+      instrucoesImediatoIndices = new Set([1,3,9,11]),
+      textos = [
+          ["Que legal! O que estou vendo?", "Essa página ilustra o funcionamento de um processador da arquitetura MIPS, no tipo pipeline. Para isso, vamos visualizar essa implementação como etapas da confecção de um bolo."],
+          ["Caramba, o que significa tudo isso?", "MIPS (Microprocessador sem Estágios de Pipeline Interconectados) é uma arquitetura aberta (livremente distribuída) para computadores. Isso significa que, seguindo as especificações do MIPS, é possível criar um computador!"],
+          ["Interessante. E o que é aquilo de Pipeline?", "Além do MIPS ser um formato para criar um computador, ele também especifica como o criar na filosofia Pipeline. A ideia é que se fôssemos, por exemplo, apagar um incêndio, ao invés de ir e voltar para encher um balde de água e descarregá-lo no fogo nós teríamos uma fila de pessoas entre os dois que passa o balde adiante até ele chegar no seu destino. Para a arquitetura, isso significa que vamos quebrar uma única instrução, a unidade de operação de um processador, em diversos passos. Isso nos permite utilizar ao máximo todos os componentes do processador - eles sempre vão estar operando e passando adiante o seu resultado."],
+          ["Nossa, isso parece perfeito!", "Realmente, o pipeline é uma forma incrível de melhorar a performance de um processador. Mas, de forma geral, as instruções - por não levarem em conta que o processador é pipelined - trazem algumas complicações que precisam ser lidadas durante a etapa de design. Uma dessas complicações é o conflito estrutural, que surge por diferentes instruções utilizarem os mesmos componentes. A solução pra isso é introduzir os registradores intermediários, e duplicar outros componentes, para isolar o contexto de cada instrução. Outra é a dependência de dados. Nela, precisamos de um dado que ainda não está disponível para a etapa atual, pois precisaria passar pela etapa de write-back. A solução disso é criar novas conexões para realizar o adiantamento (ou forwarding) de dados - caso seja necessário, elas vão adiantar a disponibilidade de um dado para a etapa atual."]
+      ];
 
 let valsInstrs = ['...', '...', '...', '...', '...'],
-    imgCards = document.querySelectorAll('.imgCard');
+    imgCards = document.querySelectorAll('.imgCard'),
+    counterPergunta = 0;
 
 // Implementação de delay assíncrono
 async function delay(val) {
@@ -357,5 +367,25 @@ botaoExec.addEventListener('click', async (e) => {
     toggleAnimacoes();
 });
 
+function atualizaPergunta() {
+    if (counterPergunta >= textos.length)
+        return;
+
+    // window.scrollTo({
+    //     left: 0,
+    //     top: document.body.scrollHeight,
+    //     behavior: "smooth"
+    // });
+    let textoCur = textos[counterPergunta];
+    duckyPergunta.innerHTML = `<b>Q:</b> ${textoCur[0]}`;
+    duckyResposta.innerHTML = `<b>A:</b> ${textoCur[1]}`;
+    counterPergunta++;
+}
+
+ducky.addEventListener('click', (e) => {
+    atualizaPergunta();
+});
+
 // Atualiza tabela com valores zerados iniciais
 atualizaTabela();
+atualizaPergunta();

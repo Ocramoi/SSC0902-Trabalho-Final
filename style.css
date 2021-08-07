@@ -285,11 +285,26 @@ th {
     text-align: right;
 }
 
-#textoDucky {
+#ducky div {
     display: block;
-    width: 100%;
+    width: calc(100% - 10px);
+    border-radius: 1rem;
+}
+
+#textoPergunta {
+    text-align: justify;
+    margin-bottom: 3px;
+}
+
+#textoDucky {
+    padding: 5px;
     text-align: center;
     background-color: white;
     border: 2px solid black;
-    border-radius: 1rem;
+}
+
+#avatarDucky {
+    cursor: pointer;
+    width: 30%;
+    max-width: 256px;
 }
